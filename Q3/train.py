@@ -30,7 +30,7 @@ class Actor(nn.Module):
         self.action_scale = torch.tensor((action_space.high - action_space.low) / 2.).to(device)
         self.action_bias = torch.tensor((action_space.high + action_space.low) / 2.).to(device)
 
-        self.apply(weights_init_)
+        # self.apply(weights_init_)
 
     def forward(self, x):
         x = F.relu(self.fc1(x))
@@ -81,7 +81,7 @@ class Critic(nn.Module):
             nn.Linear(512, 1)
         )
 
-        self.apply(weights_init_)
+        # self.apply(weights_init_)
 
     def forward(self, state, action):
         sa = torch.cat([state, action], dim=-1).to(torch.float32)
@@ -196,29 +196,30 @@ class SACAgent:
         os.makedirs(os.path.dirname(path_prefix), exist_ok=True)
         torch.save({
             'actor': self.actor.state_dict(),
-            'critic': self.critic.state_dict(),
-            'critic_target': self.critic_target.state_dict(),
-            'log_alpha': self.log_alpha,
-            'actor_optimizer': self.actor_optimizer.state_dict(),
-            'critic_optimizer': self.critic_optimizer.state_dict(),
-            'alpha_optimizer': self.alpha_optimizer.state_dict()
+            # 'critic': self.critic.state_dict(),
+            # 'critic_target': self.critic_target.state_dict(),
+            # 'log_alpha': self.log_alpha,
+            # 'actor_optimizer': self.actor_optimizer.state_dict(),
+            # 'critic_optimizer': self.critic_optimizer.state_dict(),
+            # 'alpha_optimizer': self.alpha_optimizer.state_dict()
         }, f"{path_prefix}_model.pth")
         # self.memory.save(f"{path_prefix}_replay.pkl")
 
     def load(self, path_prefix, train=False):
-        if train == True:
-            checkpoint = torch.load(f"{path_prefix}_model.pth", map_location=self.device)
-            self.actor.load_state_dict(checkpoint['actor'])
-            self.critic.load_state_dict(checkpoint['critic'])
-            self.critic_target.load_state_dict(checkpoint['critic_target'])
-            self.log_alpha.data.copy_(checkpoint['log_alpha'])
-            self.actor_optimizer.load_state_dict(checkpoint['actor_optimizer'])
-            self.critic_optimizer.load_state_dict(checkpoint['critic_optimizer'])
-            self.alpha_optimizer.load_state_dict(checkpoint['alpha_optimizer'])
-            self.memory.load(f"{path_prefix}_replay.pkl")
-        else:
-            checkpoint = torch.load(f"{path_prefix}_model.pth", map_location=torch.device('cpu'))
-            self.actor.load_state_dict(checkpoint['actor'])
+        # if train == True:
+        #     checkpoint = torch.load(f"{path_prefix}_model.pth", map_location=self.device)
+        #     self.actor.load_state_dict(checkpoint['actor'])
+        #     self.critic.load_state_dict(checkpoint['critic'])
+        #     self.critic_target.load_state_dict(checkpoint['critic_target'])
+        #     self.log_alpha.data.copy_(checkpoint['log_alpha'])
+        #     self.actor_optimizer.load_state_dict(checkpoint['actor_optimizer'])
+        #     self.critic_optimizer.load_state_dict(checkpoint['critic_optimizer'])
+        #     self.alpha_optimizer.load_state_dict(checkpoint['alpha_optimizer'])
+        #     self.memory.load(f"{path_prefix}_replay.pkl")
+    
+        checkpoint = torch.load(f"{path_prefix}_model.pth", map_location=torch.device('cpu'))
+        self.actor.load_state_dict(checkpoint['actor'])
+
 
      
 

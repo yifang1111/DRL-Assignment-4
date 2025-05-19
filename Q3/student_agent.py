@@ -23,7 +23,9 @@ class Agent(object):
         action_space = self.env.action_space
 
         self.agent = SACAgent(state_dim, action_dim, action_space)
-        self.agent.load("checkpoints/sac_2580")
+        # self.agent.load("checkpoints/sac_2580")
+        self.agent.load("checkpoints/sac_1000")
+
         self.agent.actor.eval()
 
     def act(self, observation):
