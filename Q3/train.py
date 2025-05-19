@@ -207,9 +207,9 @@ class SACAgent:
         # self.memory.save(f"{path_prefix}_replay.pkl")
 
     def load(self, path_prefix, train=False):
-        checkpoint = torch.load(f"{path_prefix}_model.pth", map_location=self.device)
-        self.actor.load_state_dict(checkpoint['actor'])
         if train == True:
+            checkpoint = torch.load(f"{path_prefix}_model.pth", map_location=self.device)
+            self.actor.load_state_dict(checkpoint['actor'])
             self.critic.load_state_dict(checkpoint['critic'])
             self.critic_target.load_state_dict(checkpoint['critic_target'])
             self.log_alpha.data.copy_(checkpoint['log_alpha'])
@@ -217,6 +217,9 @@ class SACAgent:
             self.critic_optimizer.load_state_dict(checkpoint['critic_optimizer'])
             self.alpha_optimizer.load_state_dict(checkpoint['alpha_optimizer'])
             self.memory.load(f"{path_prefix}_replay.pkl")
+        else:
+            checkpoint = torch.load(f"{path_prefix}_model.pth", map_location=torch.device('cpu'))
+            self.actor.load_state_dict(checkpoint['actor'])
 
      
 
