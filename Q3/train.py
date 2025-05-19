@@ -12,7 +12,6 @@ import pickle
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from dmc import make_dmc_env
-from torchrl.data import ReplayBuffer, LazyTensorStorage
 
 
 def weights_init_(m):
